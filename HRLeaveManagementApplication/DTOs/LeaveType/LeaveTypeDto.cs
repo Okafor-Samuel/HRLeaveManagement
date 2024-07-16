@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HRLeaveManagementApplication.DTOs
+namespace HRLeaveManagementApplication.DTOs.LeaveType
 {
     public class LeaveTypeDto : BaseDto
     {

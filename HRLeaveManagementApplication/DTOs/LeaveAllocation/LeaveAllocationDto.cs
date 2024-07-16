@@ -1,10 +1,11 @@
 ﻿using HRLeaveManagementApplication.DTOs.Common;
+using HRLeaveManagementApplication.DTOs.LeaveType;
 using HRLeaveManagementDomain;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace HRLeaveManagementApplication.DTOs
+namespace HRLeaveManagementApplication.DTOs.LeaveAllocation
 {
     public class LeaveAllocationDto : BaseDto
     {
