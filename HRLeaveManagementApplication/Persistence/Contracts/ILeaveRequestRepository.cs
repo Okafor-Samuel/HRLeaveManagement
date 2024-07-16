@@ -2,11 +2,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace HRLeaveManagementApplication.Persistence.Contracts
 {
     public interface ILeaveRequestRepository : IGenericRepository<LeaveRequest>
     {
-
+        Task<LeaveRequest> GetLeaveRequestWithDetails(int id);
+        Task<List<LeaveRequest>> GetLeaveRequestWithDetails();
     }
 }
