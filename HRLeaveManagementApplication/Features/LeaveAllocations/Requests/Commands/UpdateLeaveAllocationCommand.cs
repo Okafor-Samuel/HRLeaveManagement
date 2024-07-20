@@ -6,7 +6,7 @@ using System.Text;
 
 namespace HRLeaveManagementApplication.Features.LeaveAllocations.Requests.Commands
 {
-    public class UpdateLeaveAllocationCommand : IRequest<int>
+    public class UpdateLeaveAllocationCommand : IRequest<Unit>
     {
         public UpdateLeaveAllocationDto updateLeaveAllocationDto { get; set; }
     }
