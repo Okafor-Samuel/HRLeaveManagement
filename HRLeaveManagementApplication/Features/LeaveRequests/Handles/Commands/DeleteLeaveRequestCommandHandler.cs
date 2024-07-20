@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace HRLeaveManagementApplication.Features.LeaveRequests.Handles.Commands
 {
-    public class DeleteLeaveRequestHandler : IRequestHandler<DeleteLeaveRequestCommand>
+    public class DeleteLeaveRequestCommandHandler : IRequestHandler<DeleteLeaveRequestCommand>
     {
         private readonly IMapper _mapper;
         private readonly ILeaveRequestRepository _leaveRequestRepository;
-        public DeleteLeaveRequestHandler(ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
+        public DeleteLeaveRequestCommandHandler(ILeaveRequestRepository leaveRequestRepository, IMapper mapper)
         {
             _leaveRequestRepository = leaveRequestRepository;
             _mapper = mapper;
