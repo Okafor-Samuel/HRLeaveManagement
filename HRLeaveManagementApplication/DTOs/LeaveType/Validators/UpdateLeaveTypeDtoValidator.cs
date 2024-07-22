@@ -5,11 +5,13 @@ using System.Text;
 
 namespace HRLeaveManagementApplication.DTOs.LeaveType.Validators
 {
-    public class CreateLeaveTypeDtoValidator : AbstractValidator<CreateLeaveTypeDto>
+    public class UpdateLeaveTypeDtoValidator : AbstractValidator<LeaveTypeDto>
     {
-        public CreateLeaveTypeDtoValidator()
+        public UpdateLeaveTypeDtoValidator() 
         {
             Include(new ILeaveTypeDtoValidators());
+
+            RuleFor(p => p.Id).NotNull().WithMessage("{PropertyName} must be present");
         }
     }
 }
