@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using FluentValidation;
 using HRLeaveManagementApplication.DTOs.LeaveAllocation.Validators;
 using HRLeaveManagementApplication.DTOs.LeaveRequest.Validators;
+using HRLeaveManagementApplication.Exceptions;
 using HRLeaveManagementApplication.Features.LeaveAllocations.Requests.Commands;
 using HRLeaveManagementApplication.Persistence.Contracts;
 using HRLeaveManagementDomain;
@@ -30,11 +30,11 @@ namespace HRLeaveManagementApplication.Features.LeaveAllocations.Handlers.Comman
         public async Task<int> Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
         {
             var validator = new CreateLeaveAllocationDtoValidator(_leaveTypeRepository);
-            var validationResult = await validator.ValidateAsync(request.LeaveAllocationDto, cancellationToken);
+            var validationResult = await validator.ValidateAsync(request.LeaveAllocationDto);
 
             if (!validationResult.IsValid)
             {
-                throw new ValidationException(validationResult.Errors);
+                throw new ValidationException(validationResult);
             }
             var leaveAllocation = _mapper.Map<LeaveAllocation>(request.LeaveAllocationDto);
             leaveAllocation = await _leaveAllocationRepository.Add(leaveAllocation);
