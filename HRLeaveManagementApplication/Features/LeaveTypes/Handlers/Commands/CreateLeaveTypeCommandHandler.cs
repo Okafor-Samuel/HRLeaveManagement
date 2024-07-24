@@ -2,7 +2,7 @@
 using HRLeaveManagementApplication.DTOs.LeaveType.Validators;
 using HRLeaveManagementApplication.Exceptions;
 using HRLeaveManagementApplication.Features.LeaveTypes.Requests.Commands;
-using HRLeaveManagementApplication.Persistence.Contracts;
+using HRLeaveManagementApplication.Contracts.Persistence;
 using HRLeaveManagementApplication.Responses;
 using HRLeaveManagementDomain;
 using MediatR;
