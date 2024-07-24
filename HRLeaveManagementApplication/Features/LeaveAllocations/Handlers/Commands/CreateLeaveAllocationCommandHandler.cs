@@ -1,4 +1,7 @@
 ﻿using AutoMapper;
+using FluentValidation;
+using HRLeaveManagementApplication.DTOs.LeaveAllocation.Validators;
+using HRLeaveManagementApplication.DTOs.LeaveRequest.Validators;
 using HRLeaveManagementApplication.Features.LeaveAllocations.Requests.Commands;
 using HRLeaveManagementApplication.Persistence.Contracts;
 using HRLeaveManagementDomain;
@@ -15,14 +18,24 @@ namespace HRLeaveManagementApplication.Features.LeaveAllocations.Handlers.Comman
     {
         private readonly IMapper _mapper;
         private readonly ILeaveAllocationRepository _leaveAllocationRepository;
-        public CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository, IMapper mapper)
+        private readonly ILeaveTypeRepository _leaveTypeRepository;
+        public CreateLeaveAllocationCommandHandler(ILeaveAllocationRepository leaveAllocationRepository, IMapper mapper, ILeaveTypeRepository leaveTypeRepository)
         {
+            
             _leaveAllocationRepository = leaveAllocationRepository;
             _mapper = mapper;
+            _leaveTypeRepository = leaveTypeRepository;
         }
  
         public async Task<int> Handle(CreateLeaveAllocationCommand request, CancellationToken cancellationToken)
         {
+            var validator = new CreateLeaveAllocationDtoValidator(_leaveTypeRepository);
+            var validationResult = await validator.ValidateAsync(request.LeaveAllocationDto, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
             var leaveAllocation = _mapper.Map<LeaveAllocation>(request.LeaveAllocationDto);
             leaveAllocation = await _leaveAllocationRepository.Add(leaveAllocation);
             return leaveAllocation.Id;
