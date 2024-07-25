@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.IO;
 
 namespace HRLeaveManagementPersistence
@@ -10,9 +9,8 @@ namespace HRLeaveManagementPersistence
     {
         public LeaveManagementDbContext CreateDbContext(string[] args)
         {
-
-            IConfigurationRoot configuration = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../HRLeaveManagementApi"))
                 .AddJsonFile("appsettings.json")
                 .Build();
 
