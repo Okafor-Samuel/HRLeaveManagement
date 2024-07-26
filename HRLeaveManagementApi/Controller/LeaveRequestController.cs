@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using HRLeaveManagementApplication.DTOs.LeaveRequest;
+using HRLeaveManagementApplication.Features.LeaveRequests.Requests.Commands;
+using HRLeaveManagementApplication.Features.LeaveRequests.Requests.Queries;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +12,61 @@ namespace HRLeaveManagementApi.Controller
     [ApiController]
     public class LeaveRequestController : ControllerBase
     {
+        private readonly IMediator _mediator;
+        public LeaveRequestController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
         // GET: api/<LeaveRequestController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<List<LeaveRequestListDto>>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var leaveRequest = await _mediator.Send(new GetLeaveRequestListRequest());
+            return Ok(leaveRequest);
         }
 
         // GET api/<LeaveRequestController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult> Get(int id)
         {
-            return "value";
+            var leaveRequest = await _mediator.Send(new GetLeaveRequestDetailRequest { Id = id });
+            return Ok(leaveRequest);
         }
 
         // POST api/<LeaveRequestController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<ActionResult> Post([FromBody]  CreateLeaveRequestDto leaveRequestDto)
         {
+            var command = new CreateLeaveRequestCommand { LeaveRequestDto = leaveRequestDto };
+            var response = await _mediator.Send(command);   
+            return Ok(response);
         }
 
-        // PUT api/<LeaveRequestController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        // PUT api/<LeaveRequestController>
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] UpdateLeaveRequestDto leaveRequestDto)
         {
+            var command = new UpdateLeaveRequestCommand {UpdateLeaveRequestDto = leaveRequestDto};
+            await _mediator.Send(command);
+            return NoContent();
+        }
+
+        // PUT api/<LeaveRequestController>/changeapproval
+        [HttpPut("changeapproval")]
+        public async Task<ActionResult> ChangeApproval([FromBody] ChangeLeaveRequestApprovalDto changeLeaveRequestApproval)
+        {
+            var command = new UpdateLeaveRequestCommand { ChangeLeaveRequestApprovalDto = changeLeaveRequestApproval };
+            await _mediator.Send(command);
+            return NoContent();
         }
 
         // DELETE api/<LeaveRequestController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
+            var command = new DeleteLeaveRequestCommand { Id = id };
+            await _mediator.Send(command);
+            return NoContent();
         }
     }
 }
