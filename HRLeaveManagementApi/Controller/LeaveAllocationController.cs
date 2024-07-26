@@ -43,11 +43,11 @@ namespace HRLeaveManagementApi.Controller
             return Ok(response);
         }
 
-        // PUT api/<LeaveAllocationController>/5
-        [HttpPut("{id}")]
+        // PUT api/<LeaveAllocationController>
+        [HttpPut]
         public async Task<ActionResult> Put([FromBody] UpdateLeaveAllocationDto leaveAllocationDto)
         {
-            var command = new UpdateLeaveAllocationCommand { updateLeaveAllocationDto = leaveAllocationDto };
+            var command = new UpdateLeaveAllocationCommand { UpdateLeaveAllocationDto = leaveAllocationDto };
              await _mediator.Send(command);
             return NoContent();
         }
